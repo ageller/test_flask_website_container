@@ -1,0 +1,34 @@
+# Rung 1: development stack with live reload.
+#
+#   docker compose -f docker-compose.dev.yml up --build
+#
+# Standalone file: do not combine it with docker-compose.yml. It has its own
+# project name and its own database volume (dev_data), so dev data never mixes
+# with the survey_data volume used in Rungs 2 and 3. It does not read .env.
+
+name: survey-demo-dev
+
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    command: flask --app wsgi run --debug --host 0.0.0.0 --port 5000
+    ports:
+      - "5000:5000"
+    volumes:
+      # Source from the host, mounted over the paths used in the Dockerfile,
+      # so edits on the host are visible inside the container immediately.
+      - ./app:/app/app
+      - ./wsgi.py:/app/wsgi.py
+      - ./tests:/app/tests
+      - dev_data:/data
+    environment:
+      FLASK_ENV: development
+      DATABASE_PATH: /data/survey.db
+      TRUST_PROXY: "0"
+      # For local development only. Never reuse this value anywhere else.
+      SECRET_KEY: dev-only-not-a-secret
+
+volumes:
+  dev_data:

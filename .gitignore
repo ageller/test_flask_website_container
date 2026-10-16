@@ -1,0 +1,15 @@
+# Local configuration and secrets (only .env.example is committed)
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local SQLite databases from bare (non-container) runs
+instance/
+*.db
+*.db-wal
+*.db-shm

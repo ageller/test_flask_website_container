@@ -1,0 +1,29 @@
+# Keep the build context small and free of secrets.
+# Only requirements*.txt, app/, and wsgi.py are needed to build the image.
+
+.git
+.github
+.gitignore
+.dockerignore
+
+# Secrets and local configuration
+.env
+.env.*
+
+# Python caches and local virtual environments
+**/__pycache__
+**/*.py[cod]
+.pytest_cache
+.venv
+venv
+
+# Local data from bare runs
+instance
+
+# Tests (bind-mounted in the dev stack, never baked into an image)
+tests
+
+# Docs and deployment files that the image does not need
+**/*.md
+docker-compose*.yml
+nginx

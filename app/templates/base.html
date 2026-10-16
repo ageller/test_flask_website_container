@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Container workflow survey{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <nav>
+      <a class="brand" href="{{ url_for('survey.form') }}">Container workflow survey</a>
+      <a href="{{ url_for('survey.form') }}">Survey</a>
+      <a href="{{ url_for('survey.results') }}">Results</a>
+    </nav>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  {# Teaching aid: compare these values in Rung 1 (direct) and Rung 2 (behind nginx). #}
+  <footer class="site-footer">
+    <h2>Request as seen by Flask</h2>
+    <dl>
+      <dt>Client IP</dt><dd><code>{{ request.remote_addr }}</code></dd>
+      <dt>Scheme</dt><dd><code>{{ request.scheme }}</code></dd>
+      <dt>Host</dt><dd><code>{{ request.host }}</code></dd>
+      <dt>X-Forwarded-For header</dt><dd><code>{{ request.headers.get('X-Forwarded-For', 'not sent') }}</code></dd>
+      <dt>Proxy headers trusted (TRUST_PROXY)</dt><dd><code>{{ 'yes' if config.TRUST_PROXY else 'no' }}</code></dd>
+    </dl>
+  </footer>
+</body>
+</html>

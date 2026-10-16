@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+<h1>Results</h1>
+<p class="lead">Total submissions: <strong class="total">{{ total }}</strong></p>
+
+<div class="summary">
+  <section>
+    <h2>Primary language</h2>
+    <table>
+      <tbody>
+        {% for language, n in language_counts.items() %}
+        <tr><th scope="row">{{ language }}</th><td class="num">{{ n }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Experience with containers</h2>
+    <table>
+      <tbody>
+        {% for level, n in experience_counts.items() %}
+        <tr>
+          <th scope="row">{{ level }}{% if level in experience_labels %} <span class="hint">({{ experience_labels[level] }})</span>{% endif %}</th>
+          <td class="num">{{ n }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Deployment environments</h2>
+    <table>
+      <tbody>
+        {% for env, n in environment_counts.items() %}
+        <tr><th scope="row">{{ env }}</th><td class="num">{{ n }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p class="hint">People can choose more than one.</p>
+  </section>
+</div>
+
+<h2>10 most recent submissions</h2>
+{% if recent %}
+<div class="table-wrap">
+  <table class="recent">
+    <thead>
+      <tr>
+        <th scope="col">Time (UTC)</th>
+        <th scope="col">Name</th>
+        <th scope="col">Language</th>
+        <th scope="col">Experience</th>
+        <th scope="col">Environments</th>
+        <th scope="col">Comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in recent %}
+      <tr>
+        <td class="nowrap">{{ row.created_at }}</td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.language }}</td>
+        <td class="num">{{ row.container_experience }}</td>
+        <td>{{ row.environments }}</td>
+        <td>{{ row.comments }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p>No submissions yet. <a href="{{ url_for('survey.form') }}">Be the first.</a></p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+# Override for Rung 2: build the app image from source instead of pulling it.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up --build
+#
+# The built image is tagged ${IMAGE}:${IMAGE_TAG} from .env, so Rung 3 can run
+# that same image later with docker-compose.yml alone.
+#
+# This file is deliberately NOT named docker-compose.override.yml. Compose loads
+# a file with that name automatically, which would silently build from source
+# during the Rung 3 rehearsal instead of using the registry image.
+
+services:
+  app:
+    build:
+      context: .
+      target: prod

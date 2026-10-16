@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Container workflow survey</h1>
+<p class="lead">A short, harmless survey used to rehearse a container deployment.</p>
+
+{% if errors %}
+<div class="alert" role="alert">
+  {% if errors.form %}<p>{{ errors.form }}</p>{% endif %}
+  {% if errors | length > (1 if errors.form else 0) %}<p>Please fix the fields marked below.</p>{% endif %}
+</div>
+{% endif %}
+
+<form method="post" action="{{ url_for('survey.submit') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+  <div class="field{% if errors.name %} has-error{% endif %}">
+    <label for="name">Name <span class="hint">(optional, up to {{ name_max }} characters)</span></label>
+    <input id="name" name="name" type="text" maxlength="{{ name_max }}" value="{{ values.name }}" autocomplete="name">
+    {% if errors.name %}<p class="error">{{ errors.name }}</p>{% endif %}
+  </div>
+
+  <div class="field{% if errors.language %} has-error{% endif %}">
+    <label for="language">Primary language you use at work</label>
+    <select id="language" name="language" required>
+      <option value="">Choose one</option>
+      {% for language in languages %}
+      <option value="{{ language }}"{% if values.language == language %} selected{% endif %}>{{ language }}</option>
+      {% endfor %}
+    </select>
+    {% if errors.language %}<p class="error">{{ errors.language }}</p>{% endif %}
+  </div>
+
+  <fieldset class="field{% if errors.container_experience %} has-error{% endif %}">
+    <legend>Experience with containers</legend>
+    <div class="choices choices-row">
+      {% for level in experience_levels %}
+      <label>
+        <input type="radio" name="container_experience" value="{{ level }}"
+          {%- if values.container_experience == level | string %} checked{% endif %}
+          {%- if loop.first %} required{% endif %}>
+        {{ level }}{% if level in experience_labels %} <span class="hint">({{ experience_labels[level] }})</span>{% endif %}
+      </label>
+      {% endfor %}
+    </div>
+    {% if errors.container_experience %}<p class="error">{{ errors.container_experience }}</p>{% endif %}
+  </fieldset>
+
+  <fieldset class="field{% if errors.environments %} has-error{% endif %}">
+    <legend>Which environments do you deploy to? <span class="hint">(choose all that apply)</span></legend>
+    <div class="choices">
+      {% for env in environments %}
+      <label>
+        <input type="checkbox" name="environments" value="{{ env }}"
+          {%- if env in values.environments %} checked{% endif %}>
+        {{ env }}
+      </label>
+      {% endfor %}
+    </div>
+    {% if errors.environments %}<p class="error">{{ errors.environments }}</p>{% endif %}
+  </fieldset>
+
+  <div class="field{% if errors.comments %} has-error{% endif %}">
+    <label for="comments">Comments <span class="hint">(optional, up to {{ comments_max }} characters)</span></label>
+    <textarea id="comments" name="comments" rows="4" maxlength="{{ comments_max }}">{{ values.comments }}</textarea>
+    {% if errors.comments %}<p class="error">{{ errors.comments }}</p>{% endif %}
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
+{% endblock %}

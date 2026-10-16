@@ -1,0 +1,10 @@
+# Development and test dependencies. Installed only in the "dev" image target.
+-r requirements.txt
+
+pytest==9.1.1
+
+# pytest's own dependencies, pinned so every build installs the same set.
+iniconfig==2.3.1
+packaging==26.3
+pluggy==1.7.0
+Pygments==2.21.0

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Thank you{% endblock %}
+
+{% block content %}
+<h1>Thank you</h1>
+<p class="lead">Your response was saved.</p>
+<p>
+  <a class="button" href="{{ url_for('survey.results') }}">See the results</a>
+  <a href="{{ url_for('survey.form') }}">Submit another response</a>
+</p>
+{% endblock %}
