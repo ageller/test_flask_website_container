@@ -20,7 +20,7 @@ The same image and the same Compose file must later work unchanged on a Linux VM
 2. **Do not push images to any registry.** Do not run `docker push` or `docker login`. Document those steps in the README for the owner to run.
 3. **Do not run `docker login`, and never embed or request tokens.** Use placeholders such as `YOUR_GITHUB_USERNAME` and `YOUR_REPO_NAME`.
 4. **No secrets in the repo or in images.** Provide `.env.example` only. Add `.env` to `.gitignore` and `.dockerignore`.
-5. **If you need anything installed on the host machine, ask the owner** You should not install.  Provide instructions to the owner to run the installation.  All Python tooling runs inside containers.
+5. **If you need anything installed on the host machine, ask the owner.** You should not install.  Provide instructions to the owner to run the installation.  All Python tooling runs inside containers.
 6. **Keep the app small.** If a choice is between simple and clever, choose simple. Do not add frameworks, ORMs, front-end build tooling, or authentication.
 7. Writing GitHub Actions workflow files locally is allowed (see section 10), but do not trigger or run them.
 8. **Do not use em-dashes** in any documentation or comments you write. Use commas, colons, parentheses, or separate sentences.
